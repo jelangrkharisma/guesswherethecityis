@@ -1,0 +1,26 @@
+#ingame {
+	position: relative;
+}
+
+.gameUI {
+	position: absolute;
+	top: 2%;
+	left: 50%;
+	transform: translate(-50%, 0);
+	display: flex;
+	flex-direction: column;
+}
+
+.infos {
+	display: flex;
+}
+
+.placePin {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	bottom: 4%;
+	left: 50%;
+	transform: translate(-50%, 0);
+}

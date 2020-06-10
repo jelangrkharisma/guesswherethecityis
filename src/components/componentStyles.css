@@ -1,0 +1,46 @@
+.btn {
+	padding: 1em 3em;
+	border: 5px solid goldenrod;
+	background-color: blanchedalmond;
+	border-radius: 2em;
+	display: inline-flex;
+}
+
+.btn:hover {
+	cursor: pointer;
+	transform: translateY(1px);
+	background-color: goldenrod;
+	color: black;
+}
+
+.card {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	background-color: blanchedalmond;
+	padding: 1em;
+	min-width: 20vw;
+	margin: 10px;
+	border-radius: 8px;
+}
+
+.objective {
+	text-align: center;
+}
+
+.card-dismissable:hover {
+	cursor: pointer;
+}
+
+.card-title {
+	font-weight: 700;
+}
+.card-wrong {
+	background-color: tomato !important;
+	color: white;
+	font-weight: bold;
+}
+.card-right {
+	background-color: yellowgreen !important;
+	font-weight: bold;
+}
