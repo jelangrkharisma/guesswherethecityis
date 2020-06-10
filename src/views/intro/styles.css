@@ -20,7 +20,9 @@ body {
 }
 .subtitle {
 	margin-top: 0.3em;
+	text-align: center;
 	color: blanchedalmond;
+	background-color: black;
 }
 
 .button-rows {
@@ -31,6 +33,7 @@ body {
 }
 
 .startButton {
+	text-align: center;
 	margin: 0.5em;
 	background-color: blanchedalmond;
 	padding: 1rem 2rem;
@@ -43,7 +46,7 @@ body {
 
 .helpButton {
 	margin: 0.5em;
-	color: blanchedalmond;
+	color: black;
 	text-decoration: underline;
 	font-weight: bold;
 }
@@ -55,6 +58,8 @@ body {
 	object-fit: cover;
 	width: 100vw;
 	height: 101vh;
+	opacity: 0.3;
+	background-color: blanchedalmond;
 }
 
 .tutorials {

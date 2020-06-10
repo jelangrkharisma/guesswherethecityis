@@ -13,7 +13,7 @@ export default function Intro() {
 	}
 
 	const toggleTutorial = () => {
-		setShowTutorial(true)
+		setShowTutorial(!showTutorial)
 	}
 
 	return (
@@ -37,6 +37,8 @@ export default function Intro() {
 							<li>click on the map where you think the objective (city name) is</li>
 							<li>place the pins</li>
 							<li>see if you got the location right</li>
+							<li>you got 1500distance for a start, if you choose the wrong city, we'll deduce the distance</li>
+							<li>the game ends if you spent all of the remaining distance</li>
 						</ol>
 					</div>
 				)}

@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import GoogleMap from 'google-map-react'
 
 import mapsApi from '../../api/mapsApi'
+import alternativeMapsApi from '../../api/alternativeMapsApi'
 
 import PlaceButton from '../../components/button'
 import Cards from '../../components/card'
@@ -54,32 +55,38 @@ export default function InGame({ cities }) {
 		setCurrentObjective(cities[stage])
 	}, [cities, stage, cityPlaced, remainingDistance, history])
 	const calculateDistance = async () => {
-		const destinations = `${currentObjective.position.lat},${currentObjective.position.lng}`
-		const origins = `${selectedLat},${selectedLng}`
-		console.log('calculating distance')
-		setIsCalculating(true)
-		const { data } = await mapsApi({
-			url: `distancematrix/json?origins=${origins}&destinations=${destinations}&key=${process.env.REACT_APP_MAPAPIKEY}`,
-		})
-		setCityPlaced(cityPlaced + 1)
-		console.log(data)
+		try {
+			const destinations = `${currentObjective.position.lat},${currentObjective.position.lng}`
+			const origins = `${selectedLat},${selectedLng}`
+			console.log('calculating distance')
+			setIsCalculating(true)
 
-		// check if dropped pins is at currentObjective
-		if (!data.origin_addresses.toString().includes(currentObjective.name)) {
-			// jawaban salah. pin tidak mengandung kota objective
-			const distance = Math.floor(data.rows[0].elements[0].distance.value / 1000)
-			await setNotification({ status: 0, message: currentObjective.name })
-			await setRemainingDistance(remainingDistance - distance)
+			const { data } = await alternativeMapsApi({
+				url: `distancematrix/json?origins=${origins}&destinations=${destinations}&key=${process.env.REACT_APP_MAPAPIKEY}`,
+			})
+			setIsCalculating(false)
+			setCityPlaced(cityPlaced + 1)
+			console.log(data)
 
-			setSelectedLat(0)
-			setSelectedLng(0)
-		} else {
-			await setNotification({ status: 1, message: currentObjective.name })
-			// progress to next objective
-			await setStage(stage + 1)
+			// check if dropped pins is at currentObjective
+			if (!data.origin_addresses.toString().includes(currentObjective.name)) {
+				// jawaban salah. pin tidak mengandung kota objective
+				const distance = Math.floor(data.rows[0].elements[0].distance.value / 1000)
+				await setNotification({ status: 0, message: currentObjective.name })
+				await setRemainingDistance(remainingDistance - distance)
 
-			setSelectedLat(0)
-			setSelectedLng(0)
+				setSelectedLat(0)
+				setSelectedLng(0)
+			} else {
+				await setNotification({ status: 1, message: currentObjective.name })
+				// progress to next objective
+				await setStage(stage + 1)
+
+				setSelectedLat(0)
+				setSelectedLng(0)
+			}
+		} catch (error) {
+			console.log(error)
 		}
 	}
 
@@ -96,14 +103,20 @@ export default function InGame({ cities }) {
 					onClick={(pin) => {
 						placePin(pin)
 					}}
-				></GoogleMap>
+				>
+					{selectedLat && (
+						<div lat={selectedLat} lng={selectedLng} text={`is this ${currentObjective.name}?`} className='pin'>
+							<span role='img'>x</span>
+							<span className='pin-taunt'>{`is this ${currentObjective.name}?`}</span>
+						</div>
+					)}
+				</GoogleMap>
 			</div>
 
 			<div className='gameUI'>
 				<div className='infos'>
 					<Cards title='Remaining Distance' value={`${remainingDistance} Kilometers`} />
 					<Cards title='Cities Placed' value={cityPlaced} />
-					<Cards title='Score' value={stage * 1000} />
 				</div>
 				<CurrentObjectiveCard name={currentObjective.name} />
 			</div>
@@ -111,7 +124,7 @@ export default function InGame({ cities }) {
 				{notification && (
 					<Notification message={notification.message} status={notification.status} clear={clearNotification} />
 				)}
-
+				{isCalculating && <div className='card card-loading'>wait, let me calculate~</div>}
 				{selectedLat ? (
 					<PlaceButton
 						title={`Place! (${selectedLat.toFixed(2)}°N, ${selectedLng.toFixed(2)}°E)`}

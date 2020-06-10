@@ -28,6 +28,12 @@
 	text-align: center;
 }
 
+.card-dismissable {
+	display: flex;
+	flex-direction: row !important;
+	justify-content: space-between;
+	align-items: center;
+}
 .card-dismissable:hover {
 	cursor: pointer;
 }
@@ -42,5 +48,10 @@
 }
 .card-right {
 	background-color: yellowgreen !important;
+	font-weight: bold;
+}
+
+.card-loading {
+	background-color: blanchedalmond !important;
 	font-weight: bold;
 }

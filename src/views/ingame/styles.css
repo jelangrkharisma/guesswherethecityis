@@ -13,6 +13,13 @@
 
 .infos {
 	display: flex;
+	text-align: center;
+	flex-direction: column;
+}
+@media only screen and (min-width: 600px) {
+	.infos {
+		flex-direction: row;
+	}
 }
 
 .placePin {
@@ -23,4 +30,14 @@
 	bottom: 4%;
 	left: 50%;
 	transform: translate(-50%, 0);
+}
+
+.pin {
+	display: flex;
+}
+.pin-taunt {
+	font-size: 1em;
+	margin-left: 0.5em;
+	background-color: blanchedalmond;
+	padding: 0.2em 1em;
 }
